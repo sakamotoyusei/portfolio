@@ -289,6 +289,7 @@ aside h1 .inner2 {
   left: 0;
   opacity: 0;
   transition: 0.3s;
+  pointer-events: none;
 }
 .works_main_img:hover::after {
   opacity: 1;

@@ -292,6 +292,7 @@ aside h1 .inner2 {
         left: 0;
         opacity: 0;
         transition: .3s;
+        pointer-events: none;
     }
     &:hover::after {
         opacity: 1;
