@@ -1,0 +1,969 @@
+*,
+*::before,
+*::after {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+html {
+	scroll-behavior: smooth;
+	font-family: 'Kosugi Maru', sans-serif;
+}
+
+html p {
+	line-height: 200%;
+}
+
+
+body {
+	height: 100%;
+	width: 100%;
+	background-image: url("../img/allback.png");
+	background-size: cover;
+	background-position: center;
+	background-attachment: fixed;
+}
+
+li {
+	list-style: none;
+}
+
+nav {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	min-height: 8vh;
+	background-color: #fff;
+	z-index: 10;
+}
+
+.logo {
+	margin-right: 500px;
+	margin-top: 30px;
+	margin-bottom: 30px;
+}
+
+.logo img {
+	width: 150px;
+}
+
+.nav-links {
+	display: flex;
+	justify-content: space-around;
+	width: 30%;
+	z-index: 11;
+	transition: all .5s ease-in-out;
+	margin-left: 200px;
+}
+
+.nav-links li {
+	list-style: none;
+	z-index: 20;
+}
+
+.nav-links a {
+	font-size: 1.5rem;
+	text-decoration: none;
+	color: black !important;
+	z-index: 99 !important;
+}
+
+.burger {
+	cursor: pointer;
+	display: none;
+	margin-left: 100px;
+}
+
+.burger div {
+	width: 25px;
+	height: 3px;
+	background-color: black;
+	margin: 5px;
+	transition: all .5s ease-in-out;
+}
+
+.nav-active {
+	transform: translateX(0%) !important;
+}
+
+@media screen and (max-width: 1024px){
+	.nav-links {
+		width: 70%;
+		margin: 0;
+	}
+	.logo {
+		margin: 0;
+		margin-top: 30px;
+	margin-bottom: 30px;
+	}
+}
+
+@media screen and (max-width: 768px){
+	body {
+		overflow-x: hidden;
+
+	}
+	.nav-links {
+		position: absolute;
+		right: 0;
+		height: 92vh;
+		top: 8vh;
+		background-color: #fff;
+		flex-direction: column;
+		align-items: center;
+		width: 30%;
+		transform: translateX(100%);
+		margin: 0;
+	}
+	.logo {
+		margin: 0;
+		margin-top: 30px;
+		margin-bottom: 30px;
+	}
+
+	.nav-links li {
+		opacity: 0;
+
+	}
+
+	.burger {
+		display: block;
+	}
+
+	.nav-links li {
+		border-bottom: 1px solid #333;
+	}
+}
+
+@keyframes navLinksFade {
+	0% {
+		opacity: 0;
+		transform: translateX(50px);
+	}
+	100% {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+.toggle .line1 {
+	transform: rotate(315deg) translate(-5px, 6px);
+}
+
+.toggle .line2 {
+	opacity: 0;
+}
+
+.toggle .line3 {
+	transform: rotate(-315deg) translate(-5px, -6px);
+}
+/*==================================================
+　5-3-9 テキストが入れ替わる
+===================================*/
+
+
+.nav-links li a{
+    /*テキストの基点とするためrelativeを指定*/
+	position: relative;
+    /*はみ出る要素を隠す*/
+	overflow: hidden;
+	padding:20px 60px;
+}
+
+.nav-links li span{
+    /*絶対配置でテキストの位置を決める*/
+	position: absolute;
+	left: 50%;
+	top:0;
+    /*アニメーションの指定*/
+	transition: all .5s;
+	transform: translate(-50%, 0);/*X方向に-50% ※中央寄せにするため*/
+    /*ブロック要素にして透過なし、テキスト折り返しなし*/  
+	display: block;
+	opacity:1;
+	white-space: nowrap;
+}
+
+/*差し替わるテキストの設定*/
+.nav-links li span:nth-child(2){
+	opacity:0;/*透過0に*/
+    transform: translate(-50%,100%);/*X方向に-50% Y方向に100%*/
+}
+
+/*hoverするとテキストが入れ替わる設定*/
+.nav-links li:hover span:nth-child(1){
+	opacity:0;/*透過0に*/
+    transform: translate(-50%,-100%);/*X方向に-50% Y方向に-100%*/
+}
+
+.nav-links li:hover span:nth-child(2){
+	opacity:1;/*不透明に*/
+	transform: translate(-50%, 0);/*X方向に-50% Y方向に0*/
+}
+
+
+
+
+
+/*========= ローディング画面のためのCSS ===============*/
+#splash {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	background: rgb(177, 177, 177);
+	z-index: 9999999;
+	text-align:center;
+	color:#fff;
+}
+
+#splash-logo {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+
+/*========= 画面遷移のためのCSS ===============*/
+
+/*画面遷移アニメーション*/
+.splashbg{
+    display: none;
+}
+
+/*bodyにappearクラスがついたら出現*/
+body.appear .splashbg{
+	display:block;
+	animation-name:PageAnime;
+	animation-duration:1.2s;
+	animation-timing-function:ease-in-out;
+	animation-fill-mode:forwards;
+    content: "";
+    position:fixed;
+	z-index: 999;
+    width: 50%;
+    height: 100vh;
+    top: 0;
+	left: 0;
+    transform: translateX(-300%) skewX(-45deg);
+    background-color: #fff;/*伸びる背景色の設定*/
+}
+
+@keyframes PageAnime{
+	0% {
+		transform-origin:left;
+		transform:translateX(-300%) skewX(-45deg);
+	}
+	100% {
+		transform-origin:left;
+		transform:translateX(500%) skewX(-45deg);
+	}
+}
+
+/*画面遷移の後現れるコンテンツ設定*/
+#container{
+	opacity: 0;/*はじめは透過0に*/
+}
+
+/*bodyにappearクラスがついたら出現*/
+body.appear #container{
+	animation-name:PageAnimeAppear;
+	animation-duration:1s;
+	animation-delay: 0.6s;
+	animation-fill-mode:forwards;
+	opacity: 0;
+}
+
+@keyframes PageAnimeAppear{
+	0% {
+	opacity: 0;
+	}
+	100% {
+	opacity: 1;
+}
+}
+
+
+.works{
+	text-align: center;
+	padding-top: 18%;
+	padding-bottom: 5%;
+}
+
+.works img{
+	width: 30%;
+	margin: 30%;
+	margin: 0 auto;
+	margin-top: 5%;
+	margin-bottom: 10%;
+}
+
+/*　画像拡大＋回転　*/
+
+.zoomInRotate img{
+	transform: scale(1);
+	transition: .3s ease-in-out;/*移り変わる速さを変更したい場合はこの数値を変更*/
+}
+
+.zoomInRotate a:hover img{/*hoverした時の変化*/
+	transform:rotate(5deg) scale(1.2);/*拡大、回転の値を変更したい場合はこの数値を変更*/
+}
+
+
+/*　画像のマスク　*/
+
+.mask{
+    display: block;
+    line-height: 0;/*行の高さを0にする*/
+    overflow: hidden;/*拡大してはみ出る要素を隠す*/
+}
+
+.zoomInRotate img {
+	width: 80%;
+
+}
+
+.imgbox {
+	display: flex;
+	z-index: 999;
+}
+
+.title1 {
+	text-align: center;
+	padding-top: 15%;
+	padding-bottom: 20%;
+
+}
+
+.title1 img{
+	text-align: center;
+	width: 30%;
+}
+
+.profile {
+	display: flex;
+}
+
+.profile-text {
+	width: 50%;
+	padding-left: 3%;
+	padding-top: 8%;
+}
+.profile img {
+	width: 40%;
+	padding-left: 10%;
+	padding-bottom: 30%;
+}
+
+.profile img {
+    opacity: 0;
+    transform: translateX(-100px);
+    transition: opacity .8s, transform .8s;
+}
+
+.profile img.is-inview {
+    opacity: 1;
+    transform: translateX(0);
+    transition-delay: .3s;
+}
+
+.profile-text {
+    opacity: 0;
+    transform: translateX(100px);
+    transition: opacity .8s, transform .8s;
+}
+
+.profile-text.is-inview {
+    opacity: 1;
+    transform: translateX(0);
+    transition-delay: .7s;
+}
+
+
+
+
+.name {
+	font-size: 300%;
+}
+
+.name-en {
+	font-size: 150%;
+	padding-left: 2%;
+}
+
+.ptext {
+	font-size: 150%;
+	padding-top: 5%;
+} 
+
+
+
+
+
+.skilltitle {
+	text-align: center;
+}
+
+.skilltitle img {
+	width: 25%;
+}
+
+
+
+.chart-area{/*円グラフがスマホでつぶれないようにする*/
+	position: relative;
+	width:100%;
+	height:50vh;
+}
+
+.gurafu {
+	display: flex;
+	width: 80%;
+	justify-content: center;
+	text-align: center;
+	margin: 0 auto;
+	padding-bottom: 5%;
+}
+
+.gurafu2 {
+	display: flex;
+	width: 80%;
+	justify-content: center;
+	text-align: center;
+	margin: 0 auto;
+	padding-bottom: 15%;
+}
+
+.chart-area {
+	margin-top: 5%;
+	margin-left: 5%;
+	margin-right: 5%;
+	padding-bottom: 5%;
+}
+
+.gurafu h2 {
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.gurafu2 h2 {
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+
+
+
+.works_title {
+	padding-left: 10%;
+	padding-top: 10%;
+	padding-bottom: 15%;
+}
+
+.works_title img {
+	width: 30%;
+	/* position: fixed; */
+}
+
+.works_title2 {
+	padding-left: 10%;
+	padding-top: 10%;
+	padding-bottom: 15%;
+}
+
+.works_title2 img {
+	width: 20%;
+}
+
+
+
+.webkadai1tex {
+	text-align: left;
+	font-size: 150%;
+	padding-bottom: 5%;
+	padding-left: 20%;
+	padding-top: 15%;
+}
+
+
+
+
+.webkadai1 {
+	display: flex;
+	justify-content: space-between;
+	width: 90%;
+	padding-left: 10%;
+}
+
+.webkadai1 img {
+	width: 90%;
+	padding-top: 5%;
+}
+
+.webbox {
+	text-align: center;
+	font-size: 130%;
+}
+
+
+
+
+
+.gsetumei {
+	text-align: center;
+	padding-bottom: 25%;
+	line-height: 200%;
+	font-size: 1.5rem;
+}
+
+.g22414 {
+	display: flex;
+	width: 70%;
+	justify-content: space-between;
+	margin: 0 auto;
+	padding-bottom: 5%;
+	padding-top: 5%;
+	border-bottom: 1px solid #707070;
+}
+
+.g22414 img {
+	width: 40%;
+}
+
+
+.g22414 {
+    opacity: 0;
+    transform: translateY(100px);
+    transition: opacity .5s, transform .5s;
+}
+
+.g22414.is-inview {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: .3s;
+}
+
+.gtext p {
+	padding-top: 5%;
+}
+
+
+/*tabの形状*/
+.tab{
+	display: flex;
+	flex-wrap: wrap;
+}
+.tab li a{
+	display: block;
+	margin:0 2px;
+	padding:10px 100px;
+}
+/*liにactiveクラスがついた時の形状*/
+.tab li.active a{
+	background: rgb(255, 255, 255,.5);
+}
+
+
+/*エリアの表示非表示と形状*/
+.area {
+	display: none;/*はじめは非表示*/
+	opacity: 0;/*透過0*/
+	background: rgb(255, 255, 255,.5);
+	padding:50px 20px;
+}
+
+/*areaにis-activeというクラスがついた時の形状*/
+.area.is-active {
+    display: block;/*表示*/
+    animation-name: displayAnime;/*ふわっと表示させるためのアニメーション*/
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
+}
+
+
+
+@keyframes displayAnime{
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+.tab a {
+	text-decoration: none;
+	font-size: 300%;
+	color: #333;
+}
+
+.tab a :hover {
+	opacity: .5;
+}
+
+.photo {
+	width: 90%;
+	text-align: center;
+	margin: 0 auto;
+	padding-bottom: 10%;
+}
+
+.photo img {
+	width: 450px;
+	height: 300px;
+	object-fit: cover;
+	padding: 20px;
+	transition: .5s;
+}
+
+.photo img:hover {
+	transform: scale(1.1);
+}
+
+.ph1 {
+	text-align: center;
+	padding-bottom: 5%;
+}
+
+.ph1 h1 {
+	color: #333;
+}
+
+.konsyuunowatashi {
+	text-align: center;
+	padding-top: 5%;
+}
+
+.konsyuu1 {
+	width: 100%;
+	padding-top: 5%;
+	padding-bottom: 5%;
+	text-align: center;
+	margin: auto;
+}
+
+.konsyuu1 img {
+	width: 30%;
+	margin: 10px;
+}
+
+.skechi {
+	text-align: center;
+}
+
+.skechi1 {
+	width: 80%;
+	text-align: center;
+	padding-top: 5%;
+	padding-bottom: 5%;
+	margin: auto;
+}
+
+.skechi1 img {
+	width: 30%;
+	margin: 10px;
+}
+
+
+
+.rekishi {
+	width: 90%;
+	text-align: center;
+	margin: 0 auto;
+}
+
+.rekishi img{
+	width: 60%;
+	margin: auto;
+}
+
+.rekishi h2 {
+	margin: 10%;
+	font-size: 4rem;
+}
+
+.rekishi p {
+	font-size: 2rem;
+	padding-bottom: 20px;
+}
+
+.illust {
+	width: 90%;
+	margin: auto;
+	text-align: center;
+}
+
+.illust img {
+	width: 30%;
+	margin: 10px;
+}
+
+.illust2 {
+	width: 90%;
+	text-align: center;
+	margin: 0 auto;
+}
+
+.illust3 img{
+	width: 30%;
+	margin: 10px;
+}
+
+.illust2 h2 {
+	margin: 5%;
+}
+
+.senbatu {
+	padding-top: 10%;
+	padding-bottom: 5%;
+	text-align: center;
+}
+
+.senbatu img {
+	width: 30%;
+	margin: 10px;
+}
+
+.senbatu h2 {
+	padding-bottom: 20pX;
+}
+
+.rekishi1 {
+    opacity: 0;
+    transform: translateY(100px);
+    transition: opacity .8s, transform .8s;
+}
+
+.rekishi1.is-inview {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 1.5s;
+}
+
+.rekishi h2 {
+    opacity: 0;
+    transform: translateY(100px);
+    transition: opacity .5s, transform .5s;
+}
+
+.rekishi h2.is-inview {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.illustt{
+    opacity: 0;
+    transform: translateY(100px);
+    transition: opacity .5s, transform .5s;
+}
+
+.illustt.is-inview {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: .3s;
+}
+
+.illust{
+    opacity: 0;
+    transform: translateY(100px);
+    transition: opacity .5s, transform .5s;
+}
+
+.illust.is-inview {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: .3s;
+}
+
+.illust3{
+    opacity: 0;
+    transform: translateY(100px);
+    transition: opacity .5s, transform .5s;
+}
+
+.illust3.is-inview {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.gotop {
+	text-align: center;
+	
+}
+
+.gotop img {
+	width: 5%;
+	margin-top: 5%;
+	margin-bottom: 2%;
+}
+
+.cont {
+	padding-top: 7%;
+}
+
+.fonrun-embed {
+	padding-top: 7%;
+}
+
+
+
+
+
+/* 背景が中央から縦に出現＋テキスト */
+
+.bgCH{
+	position:relative;/*テキストの基点となる位置を定義*/
+}
+
+.bgCH span.mask{
+	position:relative;/*背景色の基点となる位置を定義*/
+	display: block;/*画像をくくるspanタグをブロック要素にする*/
+    line-height: 0;/*行の高さを0にする*/
+    overflow: hidden;/*高さからはみ出ているものを隠す*/
+}
+
+.bgCH span.mask::before {
+	content:"";
+	position: absolute;
+	z-index: 2;
+	left: 0;
+	top: 0;
+	transition: transform .3s cubic-bezier(0.8, 0, 0.2, 1) 0s;/*移り変わる速さを変更したい場合はこの数値を変更*/
+	transform: scale(1, 0);
+	transform-origin:center;
+    background:rgb(90, 90, 90,.5);/*背景色*/
+	width: 100%;
+	height: 100%;
+	
+}
+
+.bgCH span.mask:hover::before{/*hoverした時の変化*/
+	transform:scale(1, 1)
+}
+
+.bgCH span.cap{
+	position: absolute;
+	opacity:0;
+	transition: .5s ease-in-out;/*移り変わる速さを変更したい場合はこの数値を変更*/
+	z-index:3;/*テキストを前面に出す*/
+	top: 50%;
+    left: 50%;
+	transform: translate(-50%,-50%);
+	color: #fff;/*テキストの色を変えたい場合はここを修正*/
+    line-height: 1.5;/*行の高さを1.5にする*/
+}
+
+.bgCH a:hover span.cap{/*hoverした時の変化*/
+	opacity:1;
+}
+
+.wkadai01 {
+	width: 40%;
+	text-align: center;
+	justify-content: center;
+	margin: 0 auto;
+}
+
+.bgCH img {
+	width: 100%;
+}
+
+.worksall {
+	width: 90%;
+	display: flex;
+	text-align: center;
+	justify-content: center;
+	margin: 0 auto;
+}
+
+
+/* 回転Z軸2
+   ----------------------------- */
+
+.flipZ2 a{/*テキストの基点となる位置を定義*/
+	position: relative;
+	display: block;
+}
+
+.flipZ2 img {
+	transition: all 0.35s ease;/*移り変わる速さを変更したい場合はこの数値を変更*/
+	backface-visibility: hidden;/*三次元になった際に裏面を可視化させない*/
+}
+
+.flipZ2 a:hover img {/*hoverした時の変化*/
+	transform: rotate3d(-1, -1, 0, 100deg);/*奥行きをもたせて回転*/
+	opacity: 0;
+}
+
+.flipZ2 span.cap {
+/*ここからエリアの絶対配置の指定*/
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+/*ここまでエリアの絶対配置の指定*/
+transition: all 0.35s ease;/*移り変わる速さを変更したい場合はこの数値を変更*/
+	transform: rotate3d(1, 1, 0, 100deg);/*奥行きをもたせて回転*/
+	opacity: 0;
+	background:#333;/*背景色*/
+	color: #fff;/*テキストの色を変えたい場合はここを修正*/
+/*ここからテキスト中央寄せの指定*/
+	display: flex;
+	justify-content: center;
+	align-items: center;
+/*ここまでテキスト中央寄せの指定*/
+}
+
+.flipZ2 a:hover span.cap {/*hoverした時の変化*/
+	transform: rotate3d(0, 0, 0, 0deg);/*奥行きをもたせて回転*/
+	opacity: 1;
+	transition-delay: 0.15s;/*移り変わる速さを変更したい場合はこの数値を変更*/
+}
+
+.sonota {
+	width: 30%;
+	padding: 10px;
+}
+
+.sonota img {
+	width: 100%;
+}
+
+
+.sonota2 {
+	width: 40%;
+	padding: 10px;
+}
+
+.sonota2 img {
+	width: 100%;
+}
+
+.otherall {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	text-align: center;
+	margin: 0 auto;
+}
+
+
+
+
+
+
+
+footer {
+	background-color: #333;
+	text-align: center;
+	padding: 30px 0;
+}
+
+footer p {
+	color: #fff;
+
+}
+
+

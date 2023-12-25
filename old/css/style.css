@@ -1,0 +1,543 @@
+*,
+*::before,
+*::after {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+
+html {
+	font-family: 'Kosugi Maru', sans-serif;
+	scroll-behavior: smooth;
+}
+
+/* .he2 {
+	position: fixed;
+} */
+
+nav {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	min-height: 8vh;
+	background-color: #fff;
+	z-index: 10;
+}
+
+.logo {
+	margin-right: 500px;
+	margin-top: 30px;
+	margin-bottom: 30px;
+}
+
+.logo img {
+	width: 150px;
+}
+
+.nav-links {
+	display: flex;
+	justify-content: space-around;
+	width: 30%;
+	z-index: 11;
+	transition: all .5s ease-in-out;
+	margin-left: 200px;
+}
+
+.nav-links li {
+	list-style: none;
+	z-index: 20;
+}
+
+.nav-links a {
+	font-size: 1.5rem;
+	text-decoration: none;
+	color: black !important;
+	z-index: 99 !important;
+}
+
+.burger {
+	cursor: pointer;
+	display: none;
+	margin-left: 100px;
+	z-index: 50;
+}
+
+.burger div {
+	width: 25px;
+	height: 3px;
+	background-color: black;
+	margin: 5px;
+	transition: all .5s ease-in-out;
+}
+
+.nav-active {
+	transform: translateX(0%) !important;
+}
+
+@media screen and (max-width: 1024px){
+	.nav-links {
+		width: 70%;
+		margin: 0;
+	}
+	.logo {
+		margin: 0;
+		margin-top: 30px;
+	margin-bottom: 30px;
+	}
+}
+
+@media screen and (max-width: 768px){
+	body {
+		overflow-x: hidden;
+
+	}
+	.nav-links {
+		position: absolute;
+		right: 0;
+		height: 92vh;
+		top: 8vh;
+		background-color: #fff;
+		flex-direction: column;
+		align-items: center;
+		width: 30%;
+		transform: translateX(100%);
+		margin: 0;
+	}
+	.logo {
+		margin: 0;
+		margin-top: 30px;
+		margin-bottom: 30px;
+	}
+
+	.nav-links li {
+		opacity: 0;
+
+	}
+
+	.burger {
+		display: block;
+	}
+
+	.nav-links li {
+		border-bottom: 1px solid #333;
+	}
+}
+
+@keyframes navLinksFade {
+	0% {
+		opacity: 0;
+		transform: translateX(50px);
+	}
+	100% {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+.toggle .line1 {
+	transform: rotate(315deg) translate(-5px, 6px);
+}
+
+.toggle .line2 {
+	opacity: 0;
+}
+
+.toggle .line3 {
+	transform: rotate(-315deg) translate(-5px, -6px);
+}
+/*==================================================
+　5-3-9 テキストが入れ替わる
+===================================*/
+
+
+.nav-links li a{
+    /*テキストの基点とするためrelativeを指定*/
+	position: relative;
+    /*はみ出る要素を隠す*/
+	overflow: hidden;
+	padding:20px 60px;
+}
+
+.nav-links li span{
+    /*絶対配置でテキストの位置を決める*/
+	position: absolute;
+	left: 50%;
+	top:0;
+    /*アニメーションの指定*/
+	transition: all .5s;
+	transform: translate(-50%, 0);/*X方向に-50% ※中央寄せにするため*/
+    /*ブロック要素にして透過なし、テキスト折り返しなし*/  
+	display: block;
+	opacity:1;
+	white-space: nowrap;
+}
+
+/*差し替わるテキストの設定*/
+.nav-links li span:nth-child(2){
+	opacity:0;/*透過0に*/
+    transform: translate(-50%,100%);/*X方向に-50% Y方向に100%*/
+}
+
+/*hoverするとテキストが入れ替わる設定*/
+.nav-links li:hover span:nth-child(1){
+	opacity:0;/*透過0に*/
+    transform: translate(-50%,-100%);/*X方向に-50% Y方向に-100%*/
+}
+
+.nav-links li:hover span:nth-child(2){
+	opacity:1;/*不透明に*/
+	transform: translate(-50%, 0);/*X方向に-50% Y方向に0*/
+}
+
+
+
+
+/*========= LoadingのためのCSS ===============*/
+
+/* Loading背景画面設定　*/
+
+#splash {
+    /*fixedで全面に固定*/
+	position: fixed;
+	z-index: 999;
+	width: 100%;
+	height: 100%;
+	background: rgb(177, 177, 177);
+	text-align:center;
+	color:#fff;
+    
+}
+
+/* #container img{
+	width: 100%;
+	padding-bottom: 10%;
+} */
+
+#container video {
+	width: 100%;
+
+	box-shadow: 0px 20px 10px -6px rgba(0, 0, 0, 0.3);
+}
+
+.phon {
+	display: none;
+}
+
+@media screen and (max-width: 768px) {
+	.pc {
+		display: none;
+	}
+	.phon {
+		display: block;
+	}
+}
+
+/* Loadingバー中央配置　*/
+#splash_text {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+    z-index: 9999;
+	width: 100%;
+	transform: translate(-50%, -50%);
+	color: #fff;
+}
+
+/*IE11対策用バーの線の高さ※対応しなければ削除してください*/
+#splash_text svg{
+    height: 2px;
+}
+
+
+.all {
+	/* background-image: url(img/allback); */
+	height: 100%;
+	width: 100%;
+	background-image: url("../img/haikeigazou.png");
+	background-size: cover;
+	background-position: center;
+	background-attachment: fixed;
+	
+	/* background-color: aqua; */
+}
+
+
+.title {
+	text-align: center;
+	background-color: #fff;/*白背景*/
+	width: 70%;
+	margin: 0 auto;
+	padding-top: 10%;
+}
+
+.title img {
+	width: 30%;
+	margin: 30%;
+	margin: 0 auto;
+	text-align: center;
+	padding-bottom: 7%;
+}
+
+/* .profileall {
+	opacity: 0;
+} */
+
+
+
+
+.profile{
+	text-align: center;
+	/* background-image: url("../img/allback.png"); */
+	background-color: #fff;
+	width: 70%;
+	margin: 0 auto;
+	padding-bottom: 10%;
+	box-shadow: 0px 20px 10px -6px rgba(0, 0, 0, 0.3);
+}
+
+.profiletext {
+	margin-bottom: 5%;
+	line-height: 200%;
+}
+
+.profile img{
+	width: 30%;
+	margin: 30%;
+	margin: 0 auto;
+	padding-bottom: 60px;
+}
+
+.profiletext h1 {
+	font-size: 250%;
+	font-weight:500;
+	padding-top: 1%;
+	padding-bottom: 1%;
+}
+
+
+
+/* ボタン共通設定 */
+.btn03{
+    /*影の基点とするためrelativeを指定*/
+    position: relative;
+    /*ボタンの形状*/
+	text-decoration: none;
+	display: inline-block;
+    text-align: center;
+    background: transparent;
+	border: solid 1px #333;
+    outline: none;
+    /*アニメーションの指定*/
+    transition: all 0.2s ease;
+	width: 30%;
+}
+
+/*hoverをした後のボタンの形状*/
+.btn03:hover{
+	border-color:transparent;	
+}
+
+/*ボタンの中のテキスト*/
+.btn03 span {
+	position: relative;
+	z-index: 2;/*z-indexの数値をあげて文字を背景よりも手前に表示*/
+    /*テキストの形状*/
+	display: block;
+    padding: 10px 30px;
+	background:#fff;
+	color:#333;
+    /*アニメーションの指定*/
+    transition: all 0.3s ease;
+}
+
+/*== 下に押し込まれる（立体が平面に） */
+
+/*影の設定*/
+.pushdown:before {
+    content:"";
+    /*絶対配置で影の位置を決める*/
+    position: absolute;
+	z-index: -1;
+    top:4px;
+    left:0;
+    /*影の形状*/
+    width: 100%;
+    height: 100%;
+	border-radius: 25px;
+    background-color: #333;
+}
+
+/*hoverの際にY軸に4pxずらす*/
+.pushdown:hover span {
+	background-color: #333;
+	color: #fff;
+	transform: translateY(4px);
+}
+
+
+@media screen and (max-width: 768px){
+	.title img {
+		width: 40%;
+	}
+	.profile img {
+		width: 50%;
+	}
+	.profiletext h1 {
+		font-size: 170%;
+		margin-bottom: 20px;
+	}
+	.profiletext {
+		width: 80%;
+		margin: 0 auto;
+	}
+}
+
+
+
+
+
+
+.space {
+	padding-top: 10%;
+}
+
+.works{
+	text-align: center;
+	margin: 0 auto;
+	width: 80%;
+	padding-bottom: 10%;
+	background-color: #fff;
+	box-shadow: 0px 20px 10px -6px rgba(0, 0, 0, 0.3);
+}
+
+.works img{
+	width: 30%;
+	margin: 30%;
+	margin: 0 auto;
+	margin-top: 10%;
+	margin-bottom: 10%;
+}
+
+/*　画像拡大＋回転　*/
+
+.zoomInRotate img{
+	transform: scale(1);
+	transition: .3s ease-in-out;/*移り変わる速さを変更したい場合はこの数値を変更*/
+}
+
+.zoomInRotate a:hover img{/*hoverした時の変化*/
+	transform:rotate(5deg) scale(1.2);/*拡大、回転の値を変更したい場合はこの数値を変更*/
+}
+
+
+/*　画像のマスク　*/
+
+.mask{
+    display: block;
+    line-height: 0;/*行の高さを0にする*/
+    overflow: hidden;/*拡大してはみ出る要素を隠す*/
+}
+
+.zoomInRotate img {
+	width: 80%;
+}
+
+.imgbox {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.zoomInRotate {
+	flex-basis: calc(100% / 3);
+}
+
+@media screen and (max-width: 1024px) {
+	.zoomInRotate {
+		flex-basis: calc(100% / 2);
+	}
+}
+
+@media screen and (max-width: 768px) {
+	.zoomInRotate {
+		flex-basis: calc(100% / 1);
+	}
+}
+
+.contact {
+	text-align: center;
+}
+
+.contact img {
+	width: 30%;
+	margin: 30%;
+	margin: 0 auto;
+	margin-top: 10%;
+	margin-bottom: 10%;
+}
+
+
+
+
+.profileall {
+    opacity: 0;
+    transform: translateY(100px);
+    transition: opacity .8s, transform .8s;
+}
+
+.works {
+    opacity: 0;
+    transform: translateY(100px);
+    transition: opacity .8s, transform .8s;
+}
+
+.profileall.is-inview {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: .5s;
+}
+
+.works.is-inview {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: .5s;
+}
+
+.cont {
+	width: 70%;
+	width: 80%;
+	justify-content: center;
+	text-align: center;
+	margin: 0 auto;
+}
+
+.gotop {
+	text-align: center;
+	
+}
+
+.gotop img {
+	width: 5%;
+	margin-top: 5%;
+	margin-bottom: 2%;
+}
+
+
+
+
+
+
+
+
+footer {
+	background-color: #333;
+	text-align: center;
+	padding: 30px 0;
+}
+
+footer p {
+	color: #fff;
+	box-shadow: 0px 20px 10px -6px rgba(0, 0, 0, 0.3);
+}
+
+
